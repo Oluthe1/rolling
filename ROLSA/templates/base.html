@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='index.css') }}">
+
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Bootstrap JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body class="m-0">
+
+    <div class="site-wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
+            <div class="container-fluid">
+
+                <a class="navbar-brand" href="{{ url_for('home') }}">
+                    <img src ="{{url_for('static', filename='3rd.png')}}" width="180" height="110"/>
+                </a>
+
+                <button class="navbar-toggler" type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent"
+                        aria-controls="navbarSupportedContent"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        {% set nav_items = [
+                        {'endpoint': 'home', 'label': 'Home'},
+                        {'endpoint': 'products', 'label': 'Products'},
+                        {'endpoint': 'about', 'label': 'About'},
+                        {'endpoint': 'ener', 'label': 'Energy Calculator'},
+                        {'endpoint': 'books', 'label': 'Bookings'},
+                        {'endpoint': 'contact', 'label': 'Contact Us'}
+                        ] %}
+
+                        {% for item in nav_items %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == item.endpoint %}active{% endif %}"
+                               href="{{ url_for(item.endpoint) }}">
+                                {{ item.label }}
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+
+                    <form class="d-flex" role="search">
+                        <input class="form-control me-2"
+                               type="search"
+                               placeholder="Search"
+                               aria-label="Search">
+                        <button class="btn btn-outline-success"
+                                type="submit">
+                            Search
+                        </button>
+                    </form>
+
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="site-content container py-4">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer bg-light py-4 mt-auto">
+            <div class="container">
+
+                <h5>Sections</h5>
+
+                <ul class="list-unstyled">
+                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('products') }}">Products</a></li>
+                    <li><a href="{{ url_for('about') }}">About</a></li>
+                    <li><a href="{{ url_for('ener') }}">Energy Calculator</a></li>
+                    <li><a href="{{ url_for('books') }}">Bookings</a></li>
+                    <li><a href="{{ url_for('contact') }}">Contact Us</a></li>
+                </ul>
+
+                <small>&copy; {{ 2026 }} Rolsa Technologies</small>
+
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>

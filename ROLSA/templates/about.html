@@ -1,0 +1,383 @@
+﻿{% extends "base.html" %}
+{% block title %}About{% endblock %}
+{% block content %}
+
+
+
+<style>
+    *, *::before, *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: 'DM Sans', sans-serif;
+        color: #FFFFFF;
+    }
+
+    .section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 60px 40px;
+    }
+
+    .layout {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: start;
+    }
+
+    /* LEFT COLUMN */
+    .left {
+        display: flex;
+        flex-direction: column;
+        gap: 32px;
+    }
+
+    .label {
+        color: #FFA500;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    .heading {
+        font-size: 48px;
+        font-weight: 800;
+        line-height: 1.1;
+        letter-spacing: -1px;
+        margin-top: 6px;
+        color: #F5F5F5;
+    }
+
+    .description {
+        font-size: 16px;
+        color: #FFFFFF;
+        line-height: 1.7;
+    }
+
+        .description a {
+            color: #FFA500;
+            text-decoration: none;
+        }
+
+    .features-row {
+        display: grid;
+        grid-template-columns: 200px 1fr;
+        gap: 24px;
+        align-items: center;
+    }
+
+    .device-img {
+        width: 200px;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 16px;
+        background: #eee;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
+
+        .device-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    .device-img {
+        background: #f0f0f0;
+        border: 2px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .device-img::after {
+            content: '+ Add Image';
+            color: #aaa;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .device-img img ~ *::after,
+        .device-img img + *,
+        .device-img:has(img)::after {
+            display: none;
+            content: '';
+        }
+
+        .device-img:has(img) {
+            border: none;
+            background: none;
+        }
+
+    .hero-img-wrap {
+        background: #f0f0f0;
+        border: 2px dashed #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .hero-img-wrap::after {
+            content: '+ Add Image';
+            color: #aaa;
+            font-size: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .hero-img-wrap:has(img)::after {
+            display: none;
+        }
+
+        .hero-img-wrap:has(img) {
+            border: none;
+            background: none;
+        }
+
+    .feature-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 15px;
+            color: #FFA500;
+            line-height: 1.5;
+        }
+
+            .feature-list li::before {
+                content: '✓';
+                color: #FFA500;
+                font-weight: 700;
+                font-size: 14px;
+                margin-top: 1px;
+                flex-shrink: 0;
+            }
+
+    .section-subtitle {
+        font-size: 13px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+        color: #FFA500;
+        margin-bottom: 12px;
+    }
+
+    .tagline {
+        font-size: 18px;
+        font-weight: 700;
+        line-height: 1.5;
+        max-width: 480px;
+    }
+
+    .btn {
+        display: inline-block;
+        background: #FFA500;
+        color: #fff;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        padding: 18px 48px;
+        border-radius: 50px;
+        border: none;
+        cursor: pointer;
+        width: fit-content;
+        transition: background 0.2s;
+    }
+
+        .btn:hover {
+            background: #d93d56;
+        }
+
+    /* RIGHT COLUMN */
+    .right {
+        display: flex;
+        flex-direction: column;
+        gap: 28px;
+    }
+
+    .hero-img-wrap {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        height: 320px;
+        background: #f5e9e9;
+    }
+
+        .hero-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+    /* Stat card overlapping */
+    .stat-card-wrap {
+        position: relative;
+        margin-top: -60px;
+        margin-left: auto;
+        width: 220px;
+        z-index: 2;
+    }
+
+    .stat-card {
+        background: #FFA500;
+        border-radius: 24px;
+        padding: 28px 32px 32px;
+        color: #fff;
+        box-shadow: 0 8px 32px rgba(240,84,106,0.3);
+    }
+
+    .stat-number {
+        font-size: 52px;
+        font-weight: 800;
+        letter-spacing: -2px;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 17px;
+        font-weight: 700;
+        margin-top: 10px;
+        line-height: 1.3;
+        opacity: 0.95;
+    }
+
+    /* Quote */
+    .quote-block {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        padding-top: 12px;
+    }
+
+    .quote-marks {
+        color: #F5F5F5;
+        font-size: 60px;
+        line-height: 0.8;
+        font-family: Georgia, serif;
+        flex-shrink: 0;
+        margin-top: 8px;
+    }
+
+    .quote-text {
+        font-style: italic;
+        font-size: 16px;
+        color: #FFA500;
+        line-height: 1.7;
+        margin-bottom: 14px;
+    }
+
+    .quote-author {
+        font-weight: 700;
+        font-size: 15px;
+        color: #FFD700;
+    }
+
+    @media (max-width: 768px) {
+        .layout {
+            grid-template-columns: 1fr;
+        }
+
+        .features-row {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-card-wrap {
+            margin-top: 16px;
+            margin-left: 0;
+            width: auto;
+        }
+
+        .heading {
+            font-size: 34px;
+        }
+    }
+</style>
+<div class="section">
+    <div class="layout">
+
+        <!-- LEFT -->
+        <div class="left">
+            <div>
+                <p class="label">About Us</p>
+                <h1 class="heading">Powering Homes.<br>Enabling a Greener Future.</h1>
+            </div>
+
+            <p class="description">
+                At Rolsa Technologies, we help households and businesses take control of their energy through intelligent, sustainable solutions. By combining advanced green technologies with simple, user-focused design, we transform everyday homes into efficient, connected ecosystems.
+            </p>
+            <p class="description">
+                From solar energy systems to electric vehicle charging and smart home energy management, our solutions are built to reduce environmental impact while improving comfort, convenience, and long-term savings.
+            </p>
+            <p class="description">
+                Our mission is simple: make clean energy accessible, understandable, and effective for everyone.
+            </p>
+
+            <div class="features-row">
+                <div class="device-img">
+                    <img src={{ url_for('static', filename='walls2.jpg') }}><!-- Add your device image here: <img src="your-image.jpg" alt="Smart device"> -->
+                </div>
+
+                <div>
+                    <p class="section-subtitle">Key Benefits</p>
+                    <ul class="feature-list">
+                        <li>Manage and monitor your home energy from one simple platform</li>
+                        <li>Scalable technology designed for modern smart homes</li>
+                        <li>Sustainable systems that reduce carbon emissions</li>
+                        <li>Reliable support and expert installation services</li>
+                        <li>Compatible with leading smart home ecosystems</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div>
+                <p class="section-subtitle">Our Philosophy</p>
+                <p class="tagline">We believe your home should work for you — delivering comfort, efficiency, and sustainability without complexity.</p>
+                <p class="description" style="margin-top: 12px;">Clean energy shouldn't feel complicated. With the right technology and the right support, every home can take meaningful steps toward a greener future.</p>
+            </div>
+
+            <button class="btn">Learn More</button>
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right">
+            <div style="position: relative;">
+                <div class="hero-img-wrap">
+                    <img src={{ url_for('static', filename='waaaaa.png') }}><!-- Add your hero image here: <img src="your-image.jpg" alt="Smart home lifestyle"> -->
+                </div>
+
+                <!-- Stat card overlapping the image -->
+                <div class="stat-card-wrap">
+                    <div class="stat-card">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Green Homes<br>Powered</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quote -->
+            <div class="quote-block">
+                <div class="quote-marks">"</div>
+                <div>
+                    <p class="quote-text">A smarter home isn't just about technology — it's about creating a space that supports your lifestyle while protecting the planet for the next generation.</p>
+                    <p class="quote-author">— Oluwaseyi Seriki, Founder</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    {% endblock %}

@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+{% block title %}book a thing{% endblock %}
+{% block content %}
+<style>
+    .booking-section {
+        padding: 60px 20px;
+        background: #f5f7f6;
+        text-align: center;
+    }
+
+    .page-title {
+        font-size: 36px;
+        font-weight: 700;
+        margin-bottom: 10px;
+    }
+
+    .page-intro {
+        max-width: 600px;
+        margin: auto;
+        margin-bottom: 40px;
+        color: #555;
+    }
+
+    .booking-card {
+        background: white;
+        max-width: 700px;
+        margin: auto;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    }
+
+    .form-row {
+        display: flex;
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .form-group {
+        flex: 1;
+        text-align: left;
+    }
+
+    .full-width {
+        width: 100%;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 6px;
+        font-weight: 600;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .book-btn {
+        margin-top: 20px;
+        padding: 12px 25px;
+        background: #ff6b6b;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+        .book-btn:hover {
+            background: #ff4a4a;
+        }
+</style>
+<section class="booking-section">
+
+    <div class="container">
+
+        <h1 class="page-title">Book a Consultation</h1>
+
+        <p class="page-intro">
+            Speak with one of our energy specialists about solar installations,
+            EV charging solutions, or smart home energy systems.
+        </p>
+
+        <div class="booking-card">
+
+            <form method="POST" action="/book">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address</label>
+                        <input type="email" name="email" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Phone Number</label>
+                        <input type="tel" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Service</label>
+                        <select name="service" required>
+                            <option value="">Select Service</option>
+                            <option>Solar Panel Consultation</option>
+                            <option>EV Charging Installation</option>
+                            <option>Smart Home Energy System</option>
+                            <option>General Consultation</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Preferred Date</label>
+                        <input type="date" name="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Preferred Time</label>
+                        <input type="time" name="time">
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Additional Notes</label>
+                    <textarea rows="4" name="message"></textarea>
+                </div>
+
+                <button type="submit" class="book-btn">
+                    Book Appointment
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+{% endblock %}

@@ -1,0 +1,76 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #124622;
+}
+
+/* Flex layout so footer stays at bottom naturally */
+.site-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.site-content {
+    flex: 1;
+}
+
+/* Hero section */
+.hero-image {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("https://www.emeoutlookmag.com/media/UK-Renewable-Energy-Main-jpg-webp.webp");
+    height: 60vh; /* better than % for responsiveness */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: relative;
+}
+
+/* Center hero text */
+.hero-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+}
+
+/* Motto section */
+.motto {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    min-height: 200px;
+    color: white;
+    padding: 2rem;
+}
+
+    .motto h2 {
+        max-width: 800px;
+        margin: 0;
+    }
+
+/* Footer (NO fixed positioning) */
+.footer {
+    background-color: grey;
+    color: blue;
+    text-align: center;
+    padding: 1rem 0;
+}
+
+@media (max-width: 768px) {
+
+    .hero-image {
+        min-height: 60vh;
+        padding: 2rem 1rem;
+    }
+
+        .hero-image h1 {
+            font-size: 1.8rem;
+        }
+
+        .hero-image .lead {
+            font-size: 1rem;
+        }
+}

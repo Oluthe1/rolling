@@ -1,0 +1,245 @@
+{% extends "base.html" %}
+{% block title %}Book a consultation{% endblock %}
+{% block content %}
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        color: #333;
+    }
+
+    header {
+        background: #1a9e5c;
+        color: white;
+        padding: 16px 24px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .container {
+        max-width: 600px;
+        margin: 40px auto;
+        background: white;
+        border-radius: 8px;
+        padding: 32px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+        font-size: 22px;
+        margin-bottom: 6px;
+    }
+
+    .subtitle {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 28px;
+    }
+
+    .form-group {
+        margin-bottom: 18px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 15px;
+        font-family: Arial, sans-serif;
+    }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #1a9e5c;
+        }
+
+    textarea {
+        resize: vertical;
+        height: 80px;
+    }
+
+    .row {
+        display: flex;
+        gap: 16px;
+    }
+
+        .row .form-group {
+            flex: 1;
+        }
+
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background: #1a9e5c;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 8px;
+    }
+
+        .btn:hover {
+            background: #147a45;
+        }
+
+    .error {
+        color: red;
+        font-size: 12px;
+        margin-top: 4px;
+        display: none;
+    }
+
+    .success-msg {
+        display: none;
+        background: #edfdf5;
+        border: 1px solid #1a9e5c;
+        color: #147a45;
+        padding: 16px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: bold;
+        margin-top: 20px;
+    }
+</style>
+
+
+<header>Rolsa Technologies</header>
+
+<div class="container">
+    <h2>Book a Consultation</h2>
+    <p class="subtitle">Fill in the form below and we'll be in touch to confirm your appointment.</p>
+
+    <form id="booking-form" novalidate>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="fname">First Name *</label>
+                <input type="text" id="fname" placeholder="Jane" />
+                <span class="error" id="fname-err">Please enter your first name.</span>
+            </div>
+            <div class="form-group">
+                <label for="lname">Last Name *</label>
+                <input type="text" id="lname" placeholder="Smith" />
+                <span class="error" id="lname-err">Please enter your last name.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" placeholder="jane@example.com" />
+            <span class="error" id="email-err">Please enter a valid email.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number *</label>
+            <input type="tel" id="phone" placeholder="07700 900000" />
+            <span class="error" id="phone-err">Please enter your phone number.</span>
+        </div>
+
+        <div class="form-group">
+            <label for="service">Service Required *</label>
+            <select id="service">
+                <option value="">-- Select a service --</option>
+                <option>Solar Panel Consultation</option>
+                <option>EV Charging Installation</option>
+                <option>Smart Energy Management</option>
+                <option>Carbon Footprint Review</option>
+            </select>
+            <span class="error" id="service-err">Please select a service.</span>
+        </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label for="date">Preferred Date *</label>
+                <input type="date" id="date" />
+                <span class="error" id="date-err">Please select a date.</span>
+            </div>
+            <div class="form-group">
+                <label for="time">Preferred Time *</label>
+                <select id="time">
+                    <option value="">-- Select --</option>
+                    <option>09:00</option>
+                    <option>10:00</option>
+                    <option>11:00</option>
+                    <option>13:00</option>
+                    <option>14:00</option>
+                    <option>15:00</option>
+                    <option>16:00</option>
+                </select>
+                <span class="error" id="time-err">Please select a time.</span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="notes">Additional Notes</label>
+            <textarea id="notes" placeholder="Any extra details for our team..."></textarea>
+        </div>
+
+        <button type="submit" class="btn">Book Consultation</button>
+
+        <div class="success-msg" id="success-msg">
+            ? Booking received! We'll be in touch shortly to confirm.
+        </div>
+
+    </form>
+</div>
+
+<script>
+  // Set minimum date to today
+  const dateInput = document.getElementById('date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.setAttribute('min', today);
+
+  document.getElementById('booking-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    let valid = true;
+
+    const fields = [
+      { id: 'fname', check: v => v.trim() !== '' },
+      { id: 'lname', check: v => v.trim() !== '' },
+      { id: 'email', check: v => /\S+@\S+\.\S+/.test(v) },
+      { id: 'phone', check: v => v.trim() !== '' },
+      { id: 'service', check: v => v !== '' },
+      { id: 'date', check: v => v !== '' },
+      { id: 'time', check: v => v !== '' },
+    ];
+
+    fields.forEach(function(field) {
+      const input = document.getElementById(field.id);
+      const err = document.getElementById(field.id + '-err');
+      if (!field.check(input.value)) {
+        err.style.display = 'block';
+        input.style.borderColor = 'red';
+        valid = false;
+      } else {
+        err.style.display = 'none';
+        input.style.borderColor = '#ccc';
+      }
+    });
+
+    if (valid) {
+      document.getElementById('success-msg').style.display = 'block';
+      this.reset();
+    }
+  });
+</script>
+
+    {% endblock %}
