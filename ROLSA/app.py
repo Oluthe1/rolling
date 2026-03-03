@@ -40,6 +40,19 @@ def init_db():
     conn.commit()
     conn.close()
 
+def add_db():
+    conn = sqlite3.connect('site.db')
+    cursor = conn.cursor()
+
+    # Adding a 'phone' column to the 'users' table
+    cursor.execute("ALTER TABLE users ADD COLUMN firstname TEXT")
+    cursor.execute("ALTER TABLE users ADD COLUMN lastname TEXT")
+    cursor.execute("ALTER TABLE users ADD COLUMN email TEXT")
+   
+
+    conn.commit()
+    conn.close()
+
 def generate_self_signed_cert(cert_file='ssl_cert.pem', key_file='ssl_key.pem'):
     # Create a key pair
     key = crypto.PKey()
@@ -122,6 +135,37 @@ def register():
 
     # 3. GET request handler
     return render_template("register.html")
+
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        
+        conn = get_db_connection()
+        user = conn.execute(
+            "SELECT * FROM users WHERE username = ?",
+            (username,)
+        ).fetchone()
+        conn.close()
+
+        if user and check_password(password, user["password_hash"]):
+            session["user_id"] = user["id"]
+            session["username"] = user["username"]
+            flash("Login successful.")
+            return redirect(url_for("index"))
+        
+        flash("Invalid username or password.")
+        return redirect(url_for("login"))
+
+    return render_template("login.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have been logged out.")
+    return redirect(url_for('home.html'))
+
 
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
